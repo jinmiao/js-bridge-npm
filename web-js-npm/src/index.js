@@ -10,44 +10,46 @@ import {
 } from 'debeem-wallet';
 import { EtherWallet } from "debeem-id";
 
-async function queryPairPrice(pair) {
-  try {
-    console.log('queryPairPrice');
+import { replacer } from './utils.js';
 
-    const mnemonic = 'frog science fold balance climb resist torch egg clay spell silk emotion';
-    const walletObj = new WalletFactory().createWalletFromMnemonic( mnemonic );
-    console.error('walletObj address:', walletObj.address);
-    const balance = await new WalletAccount().queryBalance( walletObj.address );
-    console.error('walletObj balance:', balance);
+// BTC/USD
+window.queryPairPrice = async function(pair, callback) {
+    try {
+        console.log('queryPairPrice(' + pair + ')');
+//        const mnemonic = 'frog science fold balance climb resist torch egg clay spell silk emotion';
+//        const walletObj = new WalletFactory().createWalletFromMnemonic( mnemonic );
+//        console.error('walletObj address:', walletObj.address);
+//        const balance = await new WalletAccount().queryBalance( walletObj.address );
+//        console.error('walletObj balance:', balance);
+//
+//        // switch chain/network to Eth.Sepolia
+//        setCurrentChain( 11155111 );
+//        const chainId = getCurrentChain();
+//        console.error('getCurrentChain chainId after:', chainId);
 
-      // switch chain/network to Eth.Sepolia
-      setCurrentChain( 11155111 );
-      const chainId = getCurrentChain();
-      console.error('getCurrentChain chainId after:', chainId);
-
-	  const walletAccount = new WalletAccount();
-      const priceObj = await walletAccount.queryPairPrice( pair );
-      const jsonString = JSON.stringify(priceObj, replacer);
-      console.log(jsonString);
-      return jsonString;
-     } catch (error) {
-       console.error('Error querying pair price:', error);
+        const walletAccount = new WalletAccount();
+        const priceObj = await walletAccount.queryPairPrice(pair);
+        const jsonString = JSON.stringify(priceObj, replacer);
+        console.log(jsonString);
+        callback(jsonString);
+    } catch (error) {
+        console.error('Error querying pair price:', error);
         return null;
-     }
+    }
 }
 
-function replacer(key, value) {
-  if (typeof value === 'bigint') {
-    return value.toString() + 'n'; // 显式地标记BigInt
-  }
-  return value;
+window.getCurrentChain = function() {
+    const chainId = getCurrentChain();
+    console.log('chainId: ' + chainId);
+    return chainId
 }
 
 // Function to handle messages from WebView
 window.addEventListener('message', async (event) => {
-    const { pair } = event.data;
+    console.log(event.data);
+    const { functionName, pair } = event.data;
     const priceObj = await queryPairPrice(pair);
-    Android.postMessage(JSON.stringify(priceObj));
+    Android.onJsCallback(functionName, JSON.stringify(priceObj));
 });
 
 // 暴露一个全局函数来在 WebView 中调用
@@ -64,9 +66,6 @@ function fetchNpmDataAsync(callback) {
         callback(result);  // 调用 Kotlin 中的回调函数
     }, 2000);
 }
-
-window.fetchNpmDataAsync = fetchNpmDataAsync;  // 使函数在全局作用域内可访问
-window.queryPairPrice = queryPairPrice;
 
 // 暴露一个全局函数来在 WebView 中调用
 // 写同步方法时，不需要传递 callbackScript
@@ -88,7 +87,9 @@ window.callJsWithCallback = function(data, callback) {
 }
 
 window.callJsWithVariousParams = function(intParam, floatParam, stringParam, mapParam, arrayParam, callback) {
-    console.log("JS method called with parameters: ", intParam, floatParam, stringParam, mapParam, arrayParam);
+    console.log("hhh JS method called with parameters ");
+
+//    console.log("hhh JS method called with parameters: ", intParam, floatParam, stringParam, mapParam, arrayParam);
     // 模拟处理参数
     var result = {
         intResult: intParam + 1,

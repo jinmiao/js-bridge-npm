@@ -51,7 +51,7 @@ class NpmServiceSDK(context: Context) {
         // 保存回调方法，等待 js 回调 onJsCallback
         callbackMap[functionName] = callback
         // 调用 JS 函数
-        webView.evaluateJavascript(script(functionName, args), null)
+        webView.evaluateJavascript(script(functionName, *args), null)
     }
 
     // 同步调用
@@ -59,11 +59,11 @@ class NpmServiceSDK(context: Context) {
     // 使用场景：调用 js 方法可以立即返回结果（result）
     fun callJsFunctionSync(
         functionName: String,
-        vararg args: Any,
+        vararg args: Any?,
         callback: (String) -> Unit,
     ) {
         // 调用 JS 函数
-        webView.evaluateJavascript(script(functionName, args)) { result ->
+        webView.evaluateJavascript(script(functionName, *args)) { result ->
             Log.d("$TAG:webView", "Callback data: $result")
             callback(result)
         }
@@ -71,11 +71,12 @@ class NpmServiceSDK(context: Context) {
 
     private fun script(
         functionName: String,
-        vararg args: Any,
+        vararg args: Any?,
         async: Boolean = true,
     ): String {
         // 调用带回调的 JavaScript 方法
         val jsArgs = args.joinToString(", ") { arg ->
+            Log.d(TAG, "arg: $arg")
             when (arg) {
                 is Int, is Float, is Double -> arg.toString()
                 is String -> "\"$arg\""
@@ -89,13 +90,27 @@ class NpmServiceSDK(context: Context) {
         val callbackScript = """
             function(result) {
                 console.log(result);
-                Android.onJsCallback($functionName, result);
+                Android.onJsCallback('$functionName', result);
             }
         """.trimIndent()
 
+        Log.d(TAG, "callbackScript: $callbackScript, jsArgs: $jsArgs")
+
         // 同步不需要传递 callbackScript，异步需要传递
-        return if (async) "$functionName('$jsArgs', $callbackScript);"
-        else "$functionName('$jsArgs');"
+        val script = when {
+            jsArgs.isNotEmpty() -> {
+                if (async) "$functionName($jsArgs, $callbackScript);"
+                else "$functionName($jsArgs);"
+            }
+            else -> {
+                if (async) "$functionName($callbackScript);"
+                else "$functionName();"
+            }
+        }
+
+        Log.d(TAG, "script: $script")
+
+        return script;
     }
 
     // JavaScript 接口类
@@ -103,10 +118,18 @@ class NpmServiceSDK(context: Context) {
         @JavascriptInterface
         fun onJsCallback(functionName: String, result: String) {
             // 处理从 JS 接收的数据
-            Log.d("$TAG:WebAppInterface", "Received from JS: $functionName : $result")
+            Log.d("$TAG:onJsCallback", "Received from JS: $functionName : $result")
             callbackMap[functionName]?.let {
                 it(result)
             }
         }
     }
+
+    // 从 Kotlin 调用 JavaScript 函数
+//    fun callJsFunctionAsync(functionName: String, pair: String, callback: (String) -> Unit) {
+//        callbackMap["queryPairPrice"] = callback
+//
+//        val script = "window.postMessage({ functionName: '$functionName', pair: '$pair' }, '*');"
+//        webView.evaluateJavascript(script, null)
+//    }
 }

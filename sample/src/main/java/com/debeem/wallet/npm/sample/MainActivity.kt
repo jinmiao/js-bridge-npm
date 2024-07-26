@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     private fun testNpmServiceAsync() {
 
         // 调用带各种参数和回调的 JavaScript 方法
-//        npmServiceSDK.callJsFunction(
+//        npmServiceSDK.callJsFunctionAsync(
 //            "callJsWithVariousParams",
 //            42,
 //            3.14f,
@@ -52,14 +52,26 @@ class MainActivity : AppCompatActivity() {
 //        }
 
         // 异步
-        npmServiceSDK.callJsFunctionAsync("callJsWithCallback", "000 hello") { result ->
-            Log.d("MainActivity", "000 Received result from JS: $result")
+//        npmServiceSDK.callJsFunctionAsync("callJsWithCallback", "000 hello") { result ->
+//            Log.d("MainActivity", "000 Received result from JS: $result")
+//
+//            runOnUiThread {
+//                binding.jsResultTv.text = result
+//            }
+//        }
+
+        npmServiceSDK.callJsFunctionAsync("queryPairPrice", "BTC/USD") { result ->
+            Log.d("queryPairPrice", "$result")
+
+            runOnUiThread {
+                binding.jsResultTv.text = result
+            }
         }
 
         // 同步
-//        npmServiceSDK.callJsFunctionSync("callJsWithCallbackSync", "111 hello") { result ->
-//            Log.d("MainActivity", "111 Received result from JS: $result")
-//        }
+        npmServiceSDK.callJsFunctionSync("getCurrentChain") { result ->
+            Log.d("MainActivity", "result: $result")
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
