@@ -1,7 +1,8 @@
-
-export function replacer(key, value) {
-    if (typeof value === 'bigint') {
-        return value.toString() + 'n'; // 显式地标记BigInt
-    }
-    return value;
+// src/utils.js
+export function serializable(obj) {
+    return JSON.parse(JSON.stringify(obj, (key, value) =>
+    typeof value === 'bigint'
+    ? value.toString()
+    : value
+    ));
 }

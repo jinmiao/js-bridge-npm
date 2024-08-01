@@ -4,20 +4,24 @@ import android.os.Bundle
 import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
-import com.debeem.wallet.npm.js_bridge_npm.NpmServiceSDK
 import com.debeem.wallet.npm.sample.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var npmServiceSDK: NpmServiceSDK
+    lateinit var walletBusiness: WalletBusiness
+
+    companion object {
+        const val TAG = "MainActivity"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -26,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        npmServiceSDK = NpmServiceSDK(this)
+        walletBusiness = WalletBusiness(this)
 
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "请求数据中...", Snackbar.LENGTH_LONG).setAction("Action", null)
@@ -38,6 +42,134 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun testNpmServiceAsync() {
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                // 初始化钱包
+//                walletBusiness.initializeWallet {
+//                    Log.d(TAG,"initialize wallet: $it")
+//                }
+
+//                walletBusiness.callJsFunctionAsync("DebeemWallet", "getCurrentChain") { result ->
+//                    Log.e(TAG, "getCurrentChain: $result")
+//
+//                    runOnUiThread {
+//                        binding.jsResultTv.text = result
+//                    }
+//                }
+//
+//                walletBusiness.callJsFunctionAsync(
+//                    "DebeemWallet",
+//                    "WalletFactory.isValidWalletFactoryData"
+//                ) { result ->
+//                    Log.e(TAG, "WalletFactory.isValidWalletFactoryData: $result")
+//
+//                    runOnUiThread {
+//                        binding.jsResultTv.text = result
+//                    }
+//                }
+//
+//                walletBusiness.createCallJsFunctionAsync(
+//                    "DebeemWallet",
+//                    "WalletAccount",
+//                    emptyList(),
+//                    "queryPairPrice",
+//                    listOf("BTC/USD")
+//                ) { result ->
+//                    Log.e(TAG, "WalletAccount.queryPairPrice: $result")
+//
+//                    runOnUiThread {
+//                        binding.jsResultTv.text = result
+//                    }
+//                }
+//
+//                walletBusiness.createCallJsFunctionAsync(
+//                    "DebeemWallet",
+//                    "ChainService",
+//                    emptyList(),
+//                    "exists",
+//                    listOf(1)
+//                ) { result ->
+//                    Log.e(TAG, "ChainService.exists: $result")
+//
+//                    runOnUiThread {
+//                        binding.jsResultTv.text = result
+//                    }
+//                }
+
+//                walletBusiness.createCallJsFunctionAsync(
+//                    "DebeemWallet",
+//                    "TokenService",
+//                    listOf(11155111),
+//                    "nativeTokenAddress",
+//                    emptyList(),
+//                ) { result ->
+//                    Log.e(TAG, "TokenService.nativeTokenAddress: $result")
+//
+//                    runOnUiThread {
+//                        binding.jsResultTv.text = result
+//                    }
+//                }
+
+//                walletBusiness.createCallJsFunctionAsync(
+//                    "DebeemWallet",
+//                    "WalletStorageService",
+//                    emptyList(),
+//                    "getByCurrentWallet",
+//                    emptyList(),
+//                ) { result ->
+//                    Log.e(TAG, "WalletStorageService.getByCurrentWallet: $result")
+//
+//                    runOnUiThread {
+//                        binding.jsResultTv.text = result
+//                    }
+//                }
+
+//                walletBusiness.callJsFunctionAsync(
+//                    "DebeemWallet",
+//                    "getCurrentWalletAsync"
+//                ) { result ->
+//                    Log.e(TAG, "getCurrentWalletAsync: $result")
+//
+//                    runOnUiThread {
+//                        binding.jsResultTv.text = result
+//                    }
+//                }
+
+
+                // custom script
+                val label = "custom_test"
+                val script = """
+                (function(){
+                    const execute = async () => {
+                            try { 
+                                const walletAccount = new DebeemWallet.WalletAccount();
+                                const result = await walletAccount.queryPairPrice('BTC/USD');
+                                return { success: true, data: serializable(result) };
+                            } catch (error) {
+                                return { success: false, error: error.toString() };
+                            }
+                        };
+                    
+                        execute().then(result => {
+                            window.WalletBridge.handleResult(`${label}`, JSON.stringify(result));
+                        });
+                })();
+            """.trimIndent()
+//            Log.d(TAG, "custom script: $script")
+                walletBusiness.customScript(label, script) { result ->
+                    Log.e(TAG, "customScript result: $result")
+
+                    runOnUiThread {
+                        binding.jsResultTv.text = result
+                    }
+                }
+
+            } catch (e: Exception) {
+                println("Error: ${e.message}")
+            }
+
+
+        }
 
         // 调用带各种参数和回调的 JavaScript 方法
 //        npmServiceSDK.callJsFunctionAsync(
@@ -60,18 +192,18 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }
 
-        npmServiceSDK.callJsFunctionAsync("queryPairPrice", "BTC/USD") { result ->
-            Log.d("queryPairPrice", "$result")
-
-            runOnUiThread {
-                binding.jsResultTv.text = result
-            }
-        }
-
-        // 同步
-        npmServiceSDK.callJsFunctionSync("getCurrentChain") { result ->
-            Log.d("MainActivity", "result: $result")
-        }
+//        npmServiceSDK.callJsFunctionAsync("queryPairPrice", "BTC/USD") { result ->
+//            Log.d("queryPairPrice", "$result")
+//
+//            runOnUiThread {
+//                binding.jsResultTv.text = result
+//            }
+//        }
+//
+//        // 同步
+//        npmServiceSDK.callJsFunctionSync("getCurrentChain") { result ->
+//            Log.d("MainActivity", "result: $result")
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
