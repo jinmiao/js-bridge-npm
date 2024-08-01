@@ -1,6 +1,4 @@
-# js-bridge-npm
-
-# 项目标题
+# Android JS-Bridge Middleware SDK
 
 ## 目录
 
@@ -8,48 +6,66 @@
 <summary>点击展开/折叠</summary>
 
 - [简介](#简介)
+- [特性](#特性)
 - [安装](#安装)
 - [使用方法](#使用方法)
-- [贡献](#贡献)
+    - [Android端配置](#android端配置)
+    - [JavaScript端配置](#javascript端配置)
+- [API参考](#api参考)
+- [示例](#示例)
+- [JS-Bridge-NPM SDK](#js-bridge-npm-sdk)
+- [Webpack配置](#webpack配置)
+- [常见问题](#常见问题)
+- [贡献指南](#贡献指南)
 - [许可证](#许可证)
 
 </details>
 
 ## 简介
 
-这是项目的简介部分...
+Android JS-Bridge Middleware SDK 是一个强大的中间件，用于在 Android 应用程序中实现 WebView 和原生代码之间的无缝通信。它允许开发者通过 JavaScript 调用原生 Kotlin 函数，同时也支持从 Kotlin 调用 JavaScript 函数。
 
 <details>
 <summary>查看更多详情</summary>
 
-这里是关于项目的更多详细信息，可以包含项目的背景、目标、特性等。
+本 SDK 的核心功能是通过 WebView 的 JavaScript 接口调用 NPM 服务，从而实现跨平台的功能复用和灵活的业务逻辑处理。这种方法特别适用于混合应用开发，可以充分利用 Web 技术的灵活性和原生应用的性能优势。
 
-- 特性 1
-- 特性 2
-- 特性 3
+主要使用场景包括：
+- hybrid app 开发
+- 动态化业务逻辑
+- 跨平台组件共享
+- 快速原型开发和迭代
 
 </details>
 
+## 特性
+
+- 双向通信：支持从 JavaScript 到 Kotlin 和从 Kotlin 到 JavaScript 的调用
+- NPM 集成：可以直接在 WebView 中使用 NPM 包
+- 类型安全：使用 TypeScript 定义确保类型安全
+- 异步支持：支持异步操作和 Promise
+- 插件化架构：易于扩展和自定义功能
+- 性能优化：最小化跨语言调用的开销
+
 ## 安装
 
-安装说明...
+### Android 端
 
-## 使用方法
+在你的 `app/build.gradle` 文件中添加以下依赖：
 
-使用方法说明...
+```gradle
+dependencies {
+    implementation 'com.example:android-js-bridge:1.0.0'
+}
+```
 
-## 贡献
-
-贡献指南...
-
-## 许可证
-
-许可证信息...
-
-# js 项目创建
+### JavaScript 端
 
 JavaScript 中调用 npm 服务并通过 webpack 打包多个 JS 文件成一个 bundle.js。
 这个过程涉及设置一个适合的项目结构，安装必要的 npm 包，配置 webpack，并最终打包生成 bundle.js。
+
+<details>
+<summary>具体步骤</summary>
 
 ### 1.初始化项目
 首先创建一个新的项目文件夹，并初始化一个 npm 项目：
@@ -124,5 +140,8 @@ module.exports = {
 ```shell
 npx webpack 
 ```
+
+</details>
+
 
 
