@@ -2,6 +2,27 @@
 
 set -e  # 遇到错误立即退出
 
+printHelp() {
+    echo "Usage: $0 -v <version>"
+    echo "Example: $0 -v 1.0.0-alpha.1"
+    exit 1
+}
+
+while getopts 'v:h' OPT; do
+    case $OPT in
+        v) NEW_VERSION="$OPTARG";;
+        h) printHelp;;
+        ?) printHelp;;
+    esac
+done
+
+shift $(($OPTIND - 1))
+
+if [ -z "$NEW_VERSION" ]; then
+    echo "Error: SDK version is required"
+    printHelp
+fi
+
 # 获取脚本所在目录
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -17,9 +38,14 @@ fi
 # 切换到SDK目录
 cd "$SDK_DIR" || exit 1
 
-# 更新版本号
-NEW_VERSION=$1
-sed -i '' "s/version = '.*'/version = '$VERSION'/" "$SDK_DIR/build.gradle"
+# 更新 build.gradle 文件
+BUILD_GRADLE="$SDK_DIR/gradle.properties"
+if [ -f "$BUILD_GRADLE" ]; then
+    echo "SDK_VERSION=$NEW_VERSION" > BUILD_GRADLE
+    echo "Updated version in gradle.properties"
+else
+    echo "Warning: build.gradle not found at $BUILD_GRADLE. Make sure you update the version manually."
+fi
 
 # 提交变更
 git add .
