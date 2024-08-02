@@ -63,16 +63,16 @@ class MainActivity : AppCompatActivity() {
 //                    }
 //                }
 //
-//                walletBusiness.callJsFunctionAsync(
-//                    "DebeemWallet",
-//                    "WalletFactory.isValidWalletFactoryData"
-//                ) { result ->
-//                    Log.e(TAG, "WalletFactory.isValidWalletFactoryData: $result")
-//
-//                    runOnUiThread {
-//                        binding.jsResultTv.text = result
-//                    }
-//                }
+                walletBusiness.callJsFunctionAsync(
+                    "DebeemWallet",
+                    "WalletFactory.isValidWalletFactoryData"
+                ) { result ->
+                    Log.e(TAG, "WalletFactory.isValidWalletFactoryData: $result")
+
+                    runOnUiThread {
+                        binding.jsResultTv.text = result
+                    }
+                }
 //
 //                walletBusiness.createCallJsFunctionAsync(
 //                    "DebeemWallet",

@@ -44,5 +44,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.7.7'
     implementation 'androidx.navigation:navigation-ui-ktx:2.7.7'
 
-    implementation project(':js-bridge-npm')
+//    implementation project(':js-bridge-npm')
+    implementation 'com.github.jinmiao:js-bridge-npm:1.0.0-alpha.5'
+
 }
