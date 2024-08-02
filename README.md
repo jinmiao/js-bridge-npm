@@ -6,8 +6,8 @@
 
 - [简介](#简介)
 - [集成和使用](#集成和使用)
-    - [Android端配置](#android端配置)
-    - [JavaScript端配置](#javascript端配置)
+    - [Android端集成](#android端集成)
+    - [API 使用](#api使用)
 - [API参考](#api参考)
 - [示例](#示例)
 - [常见问题](#常见问题)
@@ -129,7 +129,7 @@ walletBusiness.createCallJsFunctionAsync(
 直接 native 编写 js 业务脚本
  - label：自定义，回调识别用
  - script: 具体 js 脚本
- - 
+ - callback: 回调方法
 
 <details>
 <summary>代码示例</summary>
