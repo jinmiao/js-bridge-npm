@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'com.github.dcendents.android-maven'
 }
 
 group = GROUP
@@ -55,7 +54,6 @@ dependencies {
 // 如果你的 SDK 包含 Java 代码，添加这个任务
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
 }
 
 artifacts {

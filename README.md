@@ -3,8 +3,6 @@
 ## 目录
 
 - [简介](#简介)
-- [特性](#特性)
-- [安装](#安装)
 - [使用方法](#使用方法)
     - [Android端配置](#android端配置)
     - [JavaScript端配置](#javascript端配置)
@@ -16,26 +14,11 @@
 
 ## 简介
 
-Android JS-Bridge Middleware SDK 是一个强大的中间件，用于在 Android 应用程序中实现 WebView 和原生代码之间的无缝通信。它允许开发者通过 JavaScript 调用原生 Kotlin 函数，同时也支持从 Kotlin 调用 JavaScript 函数。
+Android JS-Bridge SDK 是一个强大的中间件，用于在 Android 应用程序中实现 WebView 和原生代码之间的无缝通信。它允许开发者通过 JavaScript 调用原生 Kotlin 函数，同时也支持从 Kotlin 调用 JavaScript 函数。
 
 本 SDK 的核心功能是通过 WebView 的 JavaScript 接口调用 NPM 服务，从而实现跨平台的功能复用和灵活的业务逻辑处理。这种方法特别适用于混合应用开发，可以充分利用 Web 技术的灵活性和原生应用的性能优势。
 
-主要使用场景包括：
-- hybrid app 开发
-- 动态化业务逻辑
-- 跨平台组件共享
-- 快速原型开发和迭代
-
-## 特性
-
-- 双向通信：支持从 JavaScript 到 Kotlin 和从 Kotlin 到 JavaScript 的调用
-- NPM 集成：可以直接在 WebView 中使用 NPM 包
-- 类型安全：使用 TypeScript 定义确保类型安全
-- 异步支持：支持异步操作和 Promise
-- 插件化架构：易于扩展和自定义功能
-- 性能优化：最小化跨语言调用的开销
-
-## 安装
+## 集成方法
 
 ### Android 端
 
