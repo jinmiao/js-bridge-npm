@@ -7,12 +7,11 @@
 - [简介](#简介)
 - [集成和使用](#集成和使用)
     - [Android端集成](#Android端集成)
-    - [API 使用](#API使用)
-      - [1.调用全局方法或类的静态方法](#调用全局方法或类的静态方法)
-      - [2.调用类的具体属性和方法](#调用类的具体属性和方法)
-      - [3.自定义 js 脚本](#自定义js脚本)
-- [API参考](#api参考)
-- [示例](#示例)
+- [API 使用](#API使用)
+  - [1.调用全局方法或类的静态方法](#1.调用全局方法或类的静态方法)
+  - [2.调用类的具体属性和方法](#2.调用类的具体属性和方法)
+  - [3.自定义 js 脚本](#3.自定义js脚本)
+  - [4.导入的全局包名](#4.导入的全局包名)
 - [常见问题](#常见问题)
 - [贡献指南](#贡献指南)
 - [许可证](#许可证)
@@ -35,11 +34,23 @@ dependencies {
 }
 ```
 
-### API使用
+## API使用
 
-####  1.调用全局方法或类的静态方法
+###  1.调用全局方法或类的静态方法
 
-需要指定包名，方法名（类名+方法名）
+需要指定包名，全局方法/类名的静态方法）
+
+npm 方法：[isValidWalletFactoryData](https://github.com/debeem/js-debeem-wallet/blob/c6c973a8093eb6a4e2461c5bcd411d627d76fe61/src/services/wallet/WalletFactory.ts#L39)
+```javascript
+WalletFactory.isValidWalletFactoryData(wallet): boolean
+```
+
+kotlin 调用
+```kotlin
+npmServiceSDK.callJsFunctionAsync(packageName, functionName, *args) {
+  callback(it)
+}
+```
 
 <details>
 <summary>代码示例</summary>
@@ -58,30 +69,27 @@ walletBusiness.callJsFunctionAsync(
 ```
 </details>
 
-####  2.调用类的具体属性和方法
+###  2.调用类的具体属性和方法
 
 构造类的对象，需要指定具体包名，类名以及具体的属性名和方法名称
 
-<details>
-<summary>代码示例：获取类的属性值</summary>
-
-```kotlin
-// 获取类的属性值
-walletBusiness.createCallJsFunctionAsync(
-    "DebeemWallet",
-    "TokenService",
-     listOf(11155111),
-     "nativeTokenAddress",
-      emptyList(),
-) { result ->
-      Log.e(TAG, "TokenService.nativeTokenAddress: $result")
-
-      runOnUiThread {
-         binding.jsResultTv.text = result
-      }
- }
+npm 方法 [queryPairPrice](https://github.com/debeem/js-debeem-wallet/blob/c6c973a8093eb6a4e2461c5bcd411d627d76fe61/src/services/wallet/WalletAccount.ts#L193)
+```javascript
+await new WalletAccount().queryPairPrice( `BTC/USD` );
 ```
-</details>
+
+kotlin 调用
+```kotlin
+npmServiceSDK.createCallJsFunctionAsync(
+  packageName,
+  className,
+  constructorArgs,
+  methodName,
+  methodArgs
+) {
+  callback(it)
+}
+```
 
 <details>
 <summary>代码示例：获取类的属性值</summary>
@@ -124,12 +132,24 @@ walletBusiness.createCallJsFunctionAsync(
 ```
 </details>
 
-#### 3.自定义js脚本
+### 3.自定义js脚本
 
 直接 native 编写 js 业务脚本
  - label：自定义，回调识别用
  - script: 具体 js 脚本
  - callback: 回调方法
+
+```kotlin
+npmServiceSDK.createCallJsFunctionAsync(
+            packageName,
+            className,
+            constructorArgs,
+            methodName,
+            methodArgs
+) {
+    callback(it)
+}
+```
 
 <details>
 <summary>代码示例</summary>
@@ -166,6 +186,37 @@ walletBusiness.customScript(label, script) { result ->
 }
 ```
 </details>
+
+### 4.导入的全局包名
+
+js 中导入的对应包名，以及暴露的方法
+ - DebeemWallet
+ - DebeemId
+ - DebeemCipher
+ - Ethers
+ - Idb
+ - FakeIndexeddb
+ - serializable：暴露的方法，解决 BigInt 解析问题
+
+```javascript
+
+// 首先确保所有需要的包都已经正确导入和挂载到 window 对象上
+import * as DebeemWallet from 'debeem-wallet';
+window.DebeemWallet = DebeemWallet;
+import * as DebeemId from 'debeem-id';
+window.DebeemId = DebeemId;
+import * as DebeemCipher from 'debeem-cipher';
+window.DebeemCipher = DebeemCipher;
+import * as Ethers from 'ethers';
+window.Ethers = Ethers;
+import * as Idb from 'idb';
+window.Idb = Idb;
+import * as FakeIndexeddb from 'fake-indexeddb';
+window.FakeIndexeddb = FakeIndexeddb;
+
+import { serializable } from './utils';
+window.serializable = serializable;
+```
 
 ### JavaScript 端
 
@@ -267,10 +318,6 @@ npx webpack
 ```
 
 </details>
-
-## API参考
-
-## 示例
 
 ## 常见问题
 

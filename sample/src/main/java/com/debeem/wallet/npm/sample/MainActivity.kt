@@ -143,32 +143,32 @@ class MainActivity : AppCompatActivity() {
 
 
                 // custom script
-                val label = "custom_test"
-                val script = """
-                (function(){
-                    const execute = async () => {
-                            try { 
-                                const walletAccount = new DebeemWallet.WalletAccount();
-                                const result = await walletAccount.queryPairPrice('BTC/USD');
-                                return { success: true, data: serializable(result) };
-                            } catch (error) {
-                                return { success: false, error: error.toString() };
-                            }
-                        };
-                    
-                        execute().then(result => {
-                            window.WalletBridge.handleResult(`${label}`, JSON.stringify(result));
-                        });
-                })();
-            """.trimIndent()
-//            Log.d(TAG, "custom script: $script")
-                walletBusiness.customScript(label, script) { result ->
-                    Log.e(TAG, "customScript result: $result")
-
-                    runOnUiThread {
-                        binding.jsResultTv.text = result
-                    }
-                }
+//                val label = "custom_test"
+//                val script = """
+//                (function(){
+//                    const execute = async () => {
+//                            try {
+//                                const walletAccount = new DebeemWallet.WalletAccount();
+//                                const result = await walletAccount.queryPairPrice('BTC/USD');
+//                                return { success: true, data: serializable(result) };
+//                            } catch (error) {
+//                                return { success: false, error: error.toString() };
+//                            }
+//                        };
+//
+//                        execute().then(result => {
+//                            window.WalletBridge.handleResult(`${label}`, JSON.stringify(result));
+//                        });
+//                })();
+//            """.trimIndent()
+////            Log.d(TAG, "custom script: $script")
+//                walletBusiness.customScript(label, script) { result ->
+//                    Log.e(TAG, "customScript result: $result")
+//
+//                    runOnUiThread {
+//                        binding.jsResultTv.text = result
+//                    }
+//                }
 
             } catch (e: Exception) {
                 println("Error: ${e.message}")
