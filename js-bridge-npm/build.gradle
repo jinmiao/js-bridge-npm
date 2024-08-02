@@ -1,13 +1,11 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
 
-group = GROUP
-version = VERSION_NAME
-
 android {
-    namespace 'com.debeem.wallet.npm.js_bridge_npm'
+    namespace 'com.debeem.wallet.npm.js'
     compileSdk 34
 
     defaultConfig {
@@ -30,13 +28,6 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
-    publishing {
-        singleVariant("release") {
-            withSourcesJar()
-            withJavadocJar()
-        }
-    }
 }
 
 dependencies {
@@ -51,11 +42,16 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10'
 }
 
-// 如果你的 SDK 包含 Java 代码，添加这个任务
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-}
-
-artifacts {
-    archives sourcesJar
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.jinmiao'
+                artifactId = 'js-bridge-npm'
+                version = '1.0.0-alpha.2'
+            }
+        }
+    }
 }
