@@ -5,42 +5,28 @@ import * as DebeemWallet from 'debeem-wallet';
 window.DebeemWallet = DebeemWallet;
 import * as DebeemId from 'debeem-id';
 window.DebeemId = DebeemId;
+import * as DebeemCipher from 'debeem-cipher';
+window.DebeemCipher = DebeemCipher;
+import * as Ethers from 'ethers';
+window.Ethers = Ethers;
+import * as Idb from 'idb';
+window.Idb = Idb;
+import * as FakeIndexeddb from 'fake-indexeddb';
+window.FakeIndexeddb = FakeIndexeddb;
 
 import { serializable } from './utils';
 window.serializable = serializable;
-
-import { IndexedDBWrapper } from './indexedDBWrapper';
-import { createCachedDebeemWallet } from './cachedDebeemWallet';
-
-let dbWrapper;
-let cachedDebeemWallet;
 
 // Initialize function to be called from Kotlin
 window.initializeWallet = (initDB = true, callback) => {
     const init = async () => {
         try {
             console.log('initializeWallet(' + initDB + ')');
-            const walletAddress = `0x8B4c0Dc5AA90c322C747c10FDD7cf1759D343573`;
-            const saved = await DebeemWallet.putCurrentWalletAsync( walletAddress );
-            console.log(`Initialize putCurrentWalletAsync: ${saved}`);
             if (initDB) {
-                console.log('Initialize IndexedDB');
-                // Initialize IndexedDB
-                dbWrapper = new IndexedDBWrapper('WalletCache', 1);
-                await dbWrapper.open();
 
-                // Create cached DebeemWallet
-                cachedDebeemWallet = createCachedDebeemWallet(dbWrapper);
-                window.DebeemWallet = cachedDebeemWallet;
             } else {
-                console.log('Use non-cached');
-                // Use non-cached version of DebeemWallet
-                // Assuming DebeemWallet is available globally or needs to be imported
-                window.DebeemWallet = DebeemWallet;
-            }
 
-            // Expose DebeemId
-            window.DebeemId = DebeemId;
+            }
 
             return { success: true, message: "Wallet initialized successfully", dbInitialized: initDB };
         } catch (error) {
@@ -214,29 +200,6 @@ window.createAndCallMethod = (packageName, className, constructorArgs, methodNam
 //    const chainId = getCurrentChain();
 //    console.log('chainId: ' + chainId);
 //    return chainId
-//}
-//
-//// Function to handle messages from WebView
-//window.addEventListener('message', async (event) => {
-//    console.log(event.data);
-//    const { functionName, pair } = event.data;
-//    const priceObj = await queryPairPrice(pair);
-//    Android.onJsCallback(functionName, JSON.stringify(priceObj));
-//});
-//
-//// 暴露一个全局函数来在 WebView 中调用
-//window.myWalletFunction = function() {
-//  const wallet = new WalletAccount();
-//  // 根据需要调用函数或处理数据
-//  return wallet.getInfo(); // 示例方法
-//};
-//
-//// test
-//function fetchNpmDataAsync(callback) {
-//    setTimeout(() => {
-//        const result = "Data from JS 22112";
-//        callback(result);  // 调用 Kotlin 中的回调函数
-//    }, 2000);
 //}
 //
 //// 暴露一个全局函数来在 WebView 中调用
