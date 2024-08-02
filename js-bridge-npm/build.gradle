@@ -50,7 +50,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.github.jinmiao'
                 artifactId = 'js-bridge-npm'
-                version = ''
+                version = project.SDK_VERSION
             }
         }
     }
