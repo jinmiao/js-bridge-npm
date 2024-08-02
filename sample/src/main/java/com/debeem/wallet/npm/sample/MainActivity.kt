@@ -30,7 +30,13 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        walletBusiness = WalletBusiness(this)
+        binding.jsInit.text = "JS初始化中..."
+        walletBusiness = WalletBusiness(this) {
+
+            runOnUiThread {
+                binding.jsInit.text = if (it) "JS初始化完成" else "JS未初始化"
+            }
+        }
 
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "请求数据中...", Snackbar.LENGTH_LONG).setAction("Action", null)

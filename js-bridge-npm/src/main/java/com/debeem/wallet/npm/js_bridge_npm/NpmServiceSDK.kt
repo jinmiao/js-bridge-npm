@@ -16,7 +16,7 @@ import java.lang.ref.WeakReference
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-class NpmServiceSDK(private val context: Context) {
+class NpmServiceSDK(private val context: Context, private val callback: (Boolean) -> Unit) {
     private var webView: WebView? = null
     private var inited: Boolean = false
     private val callbackMap = mutableMapOf<String, ((String) -> Unit)?>()
@@ -42,6 +42,7 @@ class NpmServiceSDK(private val context: Context) {
                     Log.d(TAG, "onPageFinished")
                     initNpm(initDB = false) {
                         inited = it
+                        callback(it)
                         Log.d(TAG, "initNPM: $it")
                     }
                 }
@@ -51,9 +52,9 @@ class NpmServiceSDK(private val context: Context) {
     }
 
 
-
     private fun initNpm(initDB: Boolean = false, callback: (Boolean) -> Unit) {
         callJsFunctionAsync(packageName = "", functionName = "initializeWallet", initDB) {
+            Log.d(TAG, "initNpm: $it")
             val jsonResult = JSONObject(it)
             val result = jsonResult.getBoolean("success")
             callback(result)
@@ -78,7 +79,8 @@ class NpmServiceSDK(private val context: Context) {
         callback: (String) -> Unit,
     ) {
         // 保存回调方法，等待 js 回调 onJsCallback
-        callbackMap["$packageName.$functionName"] = callback
+        callbackMap[if (packageName.isEmpty()) functionName else "$packageName.$functionName"] =
+            callback
         // 调用 JS 函数
         webView?.evaluateJavascript(script(packageName, functionName, *args), null)
     }

@@ -24,6 +24,14 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <TextView
+            android:id="@+id/js_init"
+            android:padding="16dp"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:text="JS未初始化"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/js_result_tv"

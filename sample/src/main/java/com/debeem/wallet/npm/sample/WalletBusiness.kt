@@ -5,11 +5,11 @@ import android.util.Log
 import com.debeem.wallet.npm.js_bridge_npm.NpmServiceSDK
 import org.json.JSONObject
 
-class WalletBusiness(context: Context) {
+class WalletBusiness(context: Context, callback: (Boolean) -> Unit) {
     private var npmServiceSDK: NpmServiceSDK
 
     init {
-        npmServiceSDK = NpmServiceSDK(context)
+        npmServiceSDK = NpmServiceSDK(context, callback)
     }
 
     fun initializeWallet(initDB: Boolean = true, callback: (Boolean) -> Unit) {
