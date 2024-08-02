@@ -6,11 +6,11 @@
 
 - [简介](#简介)
 - [集成和使用](#集成和使用)
-    - [Android端集成](#Android 端集成)
-    - [API 使用](#API 使用)
+    - [Android端集成](#Android端集成)
+    - [API 使用](#API使用)
       - [1.调用全局方法或类的静态方法](#调用全局方法或类的静态方法)
       - [2.调用类的具体属性和方法](#调用类的具体属性和方法)
-      - [3.自定义 js 脚本](#自定义 js 脚本)
+      - [3.自定义 js 脚本](#自定义js脚本)
 - [API参考](#api参考)
 - [示例](#示例)
 - [常见问题](#常见问题)
@@ -19,16 +19,13 @@
 
 ## 简介
 
-Android JS-Bridge SDK 是一个强大的中间件，用于在 Android 应用程序中实现 WebView 和原生代码之间的无缝通信。它允许开发者通过
-JavaScript 调用原生 Kotlin 函数，同时也支持从 Kotlin 调用 JavaScript 函数。
-
-本 SDK 的核心功能是通过 WebView 的 JavaScript 接口调用 NPM
+Android JS-Bridge SDK 是一个强大的中间件，核心功能是通过 WebView 的 JavaScript 接口调用 NPM
 服务，从而实现跨平台的功能复用和灵活的业务逻辑处理。这种方法特别适用于混合应用开发，可以充分利用 Web
 技术的灵活性和原生应用的性能优势。
 
 ## 集成和使用
 
-### Android 端集成
+### Android端集成
 
 在你的 `app/build.gradle` 文件中添加以下依赖：
 
@@ -38,9 +35,9 @@ dependencies {
 }
 ```
 
-### API 使用
+### API使用
 
-####  调用全局方法或类的静态方法
+####  1.调用全局方法或类的静态方法
 
 需要指定包名，方法名（类名+方法名）
 
@@ -61,7 +58,7 @@ walletBusiness.callJsFunctionAsync(
 ```
 </details>
 
-####  调用类的具体属性和方法
+####  2.调用类的具体属性和方法
 
 构造类的对象，需要指定具体包名，类名以及具体的属性名和方法名称
 
@@ -127,7 +124,7 @@ walletBusiness.createCallJsFunctionAsync(
 ```
 </details>
 
-#### 自定义 js 脚本
+#### 3.自定义js脚本
 
 直接 native 编写 js 业务脚本
  - label：自定义，回调识别用
