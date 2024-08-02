@@ -26,13 +26,13 @@ Android JS-Bridge SDK 是一个强大的中间件，核心功能是通过 WebVie
 
 ### Android端集成
 
-在项目根目录的 build.gradle 文件中添加以下依赖：
+在项目根目录的 build.gradle 文件中添加 jitpack maven 依赖：
 ```kotlin
 dependencyResolutionManagement {
 	repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 	repositories {
 		mavenCentral()
-		maven { url 'https://jitpack.io' }
+		maven { url 'https://jitpack.io' } // 添加这一行
 	}
 }
 ```
