@@ -350,7 +350,7 @@ npx webpack
 ```shell
 ./publish_library.sh -v 1.0.0-alpha.2
 ```
->版本控制和策略  
+><b>版本控制和策略</b>  
 > alpha（1.0.0-alpha.1）: 早期内测版本，功能可能不完整  
 > beta（1.0.0-beta.2）: 功能基本完整，相比Alpha版本更稳定  
 > rc（1.0.0-rc.1）: 功能完整，主要bug已修复，可能直接成为正式发布版本  
