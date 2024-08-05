@@ -20,13 +20,13 @@
 - [6.贡献指南](#section-6)
 - [7.许可证](#section-7)
 
-<h2 id="section-1">一、简介</h2>
+<h2 id="section-1">1.简介</h2>
 
 Android JS-Bridge SDK 是一个强大的中间件，核心功能是通过 WebView 的 JavaScript 接口调用 NPM
 服务，从而实现跨平台的功能复用和灵活的业务逻辑处理。这种方法特别适用于混合应用开发，可以充分利用 Web
 技术的灵活性和原生应用的性能优势。
 
-<h2 id="section-2">二、集成和使用</h2>
+<h2 id="section-2">2.集成和使用</h2>
 
 <h3 id="section-2-1">Android端集成</h3>
 
@@ -49,7 +49,7 @@ dependencies {
 }
 ```
 
-<h2 id="section-3">三、API使用</h2>
+<h2 id="section-3">3.API使用</h2>
 
 <h3 id="section-3-1">1.调用全局方法或类的静态方法</h3>
 
@@ -222,7 +222,7 @@ import { serializable } from './utils';
 window.serializable = serializable;
 ```
 
-<h2 id="section-4">四、更新升级SDK</h2>
+<h2 id="section-4">4.更新升级SDK</h2>
 
 <h3 id="section-4-1">1.Android端</h3>
 
@@ -351,10 +351,10 @@ npx webpack
 ./publish_library.sh -v 1.0.0-alpha.2
 ```
 
-<h2 id="section-5">五、常见问题</h2>
+<h2 id="section-5">5.常见问题</h2>
 
-<h2 id="section-6">六、贡献指南</h2>
+<h2 id="section-6">6.贡献指南</h2>
 
-<h2 id="section-7">七、许可证</h2>
+<h2 id="section-7">7.许可证</h2>
 
 
