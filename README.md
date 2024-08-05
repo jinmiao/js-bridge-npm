@@ -5,17 +5,17 @@
 ## 目录
 
 - [一、简介](#section-1)
-- [二、集成和使用](#section-2)
-    - [Android端集成](#Android端集成)
-- [三、API 使用](#section-3)
-  - [1.调用全局方法或类的静态方法](#1.调用全局方法或类的静态方法)
-  - [2.调用类的具体属性和方法](#2.调用类的具体属性和方法)
-  - [3.自定义 js 脚本](#3.自定义js脚本)
-  - [4.导入的全局包名](#4.导入的全局包名)
-- [四、更新升级SDK](#section-4)
-  - [Android端](#1.Android端)
-  - [JavaScript端](#2.JavaScript端)
-  - [如何打包发布](#3.如何打包发布)
+- [二、集成](#section-2)
+    - [Android端集成](#section-2-1)
+- [三、使用](#section-3)
+  - [1.调用全局方法或类的静态方法](#section-3-1)
+  - [2.调用类的具体属性和方法](#section-3-2)
+  - [3.自定义 js 脚本](#section-3-3)
+  - [4.导入的全局包名](#section-3-3)
+- [四、更新](#section-4)
+  - [Android端](#section-4-1)
+  - [JavaScript端](#section-4-2)
+  - [如何打包发布](#section-4-3)
 - [五、常见问题](#section-5)
 - [六、贡献指南](#section-6)
 - [七、许可证](#section-7)
@@ -28,7 +28,7 @@ Android JS-Bridge SDK 是一个强大的中间件，核心功能是通过 WebVie
 
 <h2 id="section-2">二、集成和使用</h2>
 
-### Android端集成
+<h3 id="section-2-1">Android端集成</h3>
 
 在项目根目录的 build.gradle 文件中添加 jitpack maven 依赖：
 ```kotlin
@@ -51,7 +51,7 @@ dependencies {
 
 <h2 id="section-3">三、API使用</h2>
 
-###  1.调用全局方法或类的静态方法
+<h3 id="section-3-1">1.调用全局方法或类的静态方法</h3>
 
 需要指定包名，全局方法/类名的静态方法）
 
@@ -82,7 +82,7 @@ walletBusiness.callJsFunctionAsync(
 ```
 </details>
 
-###  2.调用类的具体属性和方法
+<h3 id="section-3-2">1.调用类的具体属性和方法</h3>
 
 构造类的对象，需要指定具体包名，类名以及具体的属性名和方法名称
 
@@ -144,7 +144,7 @@ walletBusiness.createCallJsFunctionAsync(
 ```
 </details>
 
-### 3.自定义js脚本
+<h3 id="section-3-3">3.自定义js脚本</h3>
 
 直接 native 编写 js 业务脚本
  - label：自定义，回调识别用
@@ -163,7 +163,7 @@ customScript(label, script, callback)
 val label = "custom_test"
 val script = """
  (function(){
-     // 具体业务开始
+     // Business start
      const execute = async () => {
      try { 
         const walletAccount = new DebeemWallet.WalletAccount();
@@ -172,9 +172,9 @@ val script = """
      } catch (error) {
         return { success: false, error: error.toString() };
      }};
-     // 具体业务结束
+     // Business end
      
-     // 业务结果返回到 native
+     // Business execute result to native
      execute().then(result => {
         window.WalletBridge.handleResult(`${label}`, JSON.stringify(result));
      });
@@ -191,7 +191,7 @@ walletBusiness.customScript(label, script) { result ->
 ```
 </details>
 
-### 4.导入的全局包名
+<h3 id="section-3-4">4.导入的具体业务包</h3>
 
 js 中导入的对应包名，以及暴露的方法
  - DebeemWallet
@@ -224,13 +224,15 @@ window.serializable = serializable;
 
 <h2 id="section-4">四、更新升级SDK</h2>
 
-### 1.Android端
+<h3 id="section-4-1">1.Android端</h3>
 
-可以通过修改 SDK 目录中的 NpmServiceSDK.kt 文件，更新升级 SDK。
+Android Native 接口更新，可以通过修改 SDK 目录中的 NpmServiceSDK.kt 文件，更新升级 SDK。
 
-### 2.JavaScript端
+<h3 id="section-4-2">2.JavaScript端</h3>
 
-JavaScript 中调用 npm 服务并通过 webpack 打包多个 JS 文件成一个 bundle.js。
+js 具体业务更新，例如新增 npm 服务等。
+
+>JavaScript 中调用 npm 服务并通过 webpack 打包多个 JS 文件成一个 bundle.js。
 这个过程涉及设置一个适合的项目结构，安装必要的 npm 包，配置 webpack，并最终打包生成 bundle.js。
 
 <details>
@@ -329,7 +331,7 @@ npx webpack
 
 </details>
 
-### 3.打包发布
+<h3 id="section-4-3">3.打包发布</h3>
 
 #### 打包脚本介绍
 
