@@ -349,6 +349,8 @@ npx webpack
 ./publish_library.sh -v 1.0.0-alpha.2
 ```
 
+<h2 id="section-5">五、常见问题</h2>
+
 <h2 id="section-6">六、贡献指南</h2>
 
 <h2 id="section-7">七、许可证</h2>
