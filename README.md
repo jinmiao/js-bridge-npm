@@ -1,4 +1,4 @@
-# Android JS-Bridge Middleware SDK
+# Android JS-Bridge-NPM SDK
 
 [![](https://jitpack.io/v/jinmiao/js-bridge-npm.svg)](https://jitpack.io/#jinmiao/js-bridge-npm)
 
