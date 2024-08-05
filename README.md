@@ -224,11 +224,11 @@ window.serializable = serializable;
 
 ## 更新升级SDK
 
-### Android端
+### 1.Android端
 
 可以通过修改 SDK 目录中的 NpmServiceSDK.kt 文件，更新升级 SDK。
 
-### JavaScript端
+### 2.JavaScript端
 
 JavaScript 中调用 npm 服务并通过 webpack 打包多个 JS 文件成一个 bundle.js。
 这个过程涉及设置一个适合的项目结构，安装必要的 npm 包，配置 webpack，并最终打包生成 bundle.js。
@@ -329,9 +329,9 @@ npx webpack
 
 </details>
 
-## 如何打包发布
+### 3.如何打包发布
 
-### 打包脚本介绍
+#### 打包脚本介绍
 
 1、bundle.js 生成脚本
 
