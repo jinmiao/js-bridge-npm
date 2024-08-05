@@ -22,7 +22,7 @@
 
 <h2 id="section-1">1.简介</h2>
 
-Android JS-Bridge SDK 是一个强大的中间件，核心功能是通过 WebView 的 JavaScript 接口调用 NPM
+Android JS-Bridge-NPM SDK 是一个强大的中间件，核心功能是通过 WebView 的 JavaScript 接口调用 NPM
 服务，从而实现跨平台的功能复用和灵活的业务逻辑处理。这种方法特别适用于混合应用开发，可以充分利用 Web
 技术的灵活性和原生应用的性能优势。
 
