@@ -5,20 +5,20 @@
 ## 目录
 
 - [一、简介](#section-1)
-- [二、集成和使用](#二、集成和使用)
+- [二、集成和使用](#section-2)
     - [Android端集成](#Android端集成)
-- [三、API 使用](#API使用)
+- [三、API 使用](#section-3)
   - [1.调用全局方法或类的静态方法](#1.调用全局方法或类的静态方法)
   - [2.调用类的具体属性和方法](#2.调用类的具体属性和方法)
   - [3.自定义 js 脚本](#3.自定义js脚本)
   - [4.导入的全局包名](#4.导入的全局包名)
-- [四、更新升级SDK](#更新升级SDK)
+- [四、更新升级SDK](#section-4)
   - [Android端](#1.Android端)
   - [JavaScript端](#2.JavaScript端)
   - [如何打包发布](#3.如何打包发布)
-- [五、常见问题](#常见问题)
-- [六、贡献指南](#贡献指南)
-- [七、许可证](#许可证)
+- [五、常见问题](#section-5)
+- [六、贡献指南](#section-6)
+- [七、许可证](#section-7)
 
 <h2 id="section-1">一、简介</h2>
 
@@ -26,7 +26,7 @@ Android JS-Bridge SDK 是一个强大的中间件，核心功能是通过 WebVie
 服务，从而实现跨平台的功能复用和灵活的业务逻辑处理。这种方法特别适用于混合应用开发，可以充分利用 Web
 技术的灵活性和原生应用的性能优势。
 
-## 二、集成和使用
+<h2 id="section-2">二、集成和使用</h2>
 
 ### Android端集成
 
@@ -49,7 +49,7 @@ dependencies {
 }
 ```
 
-## 三、API使用
+<h2 id="section-3">三、API使用</h2>
 
 ###  1.调用全局方法或类的静态方法
 
@@ -222,7 +222,7 @@ import { serializable } from './utils';
 window.serializable = serializable;
 ```
 
-## 四、更新升级SDK
+<h2 id="section-4">四、更新升级SDK</h2>
 
 ### 1.Android端
 
@@ -349,10 +349,8 @@ npx webpack
 ./publish_library.sh -v 1.0.0-alpha.2
 ```
 
-## 五、常见问题
+<h2 id="section-6">六、贡献指南</h2>
 
-## 六、贡献指南
-
-## 七、许可证
+<h2 id="section-7">七、许可证</h2>
 
 
