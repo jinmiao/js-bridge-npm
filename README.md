@@ -151,6 +151,8 @@ walletBusiness.createCallJsFunctionAsync(
  - script: 具体 js 脚本
  - callback: 回调方法
 
+kotlin 调用
+
 ```kotlin
 customScript(label, script, callback)
 ```
