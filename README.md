@@ -12,6 +12,10 @@
   - [2.调用类的具体属性和方法](#2.调用类的具体属性和方法)
   - [3.自定义 js 脚本](#3.自定义js脚本)
   - [4.导入的全局包名](#4.导入的全局包名)
+- [更新升级SDK](#更新升级SDK)
+  - [Android端](#Android端)
+  - [JavaScript端](#JavaScript端)
+  - [如何打包发布](#如何打包发布)
 - [常见问题](#常见问题)
 - [贡献指南](#贡献指南)
 - [许可证](#许可证)
@@ -58,9 +62,7 @@ WalletFactory.isValidWalletFactoryData(wallet): boolean
 
 kotlin 调用
 ```kotlin
-npmServiceSDK.callJsFunctionAsync(packageName, functionName, *args) {
-  callback(it)
-}
+callJsFunctionAsync(packageName, functionName, *args, callback)
 ```
 
 <details>
@@ -91,15 +93,14 @@ await new WalletAccount().queryPairPrice( `BTC/USD` );
 
 kotlin 调用
 ```kotlin
-npmServiceSDK.createCallJsFunctionAsync(
+createCallJsFunctionAsync(
   packageName,
   className,
   constructorArgs,
   methodName,
-  methodArgs
-) {
-  callback(it)
-}
+  methodArgs,
+  callback
+)
 ```
 
 <details>
@@ -151,15 +152,7 @@ walletBusiness.createCallJsFunctionAsync(
  - callback: 回调方法
 
 ```kotlin
-npmServiceSDK.createCallJsFunctionAsync(
-            packageName,
-            className,
-            constructorArgs,
-            methodName,
-            methodArgs
-) {
-    callback(it)
-}
+customScript(label, script, callback)
 ```
 
 <details>
@@ -229,7 +222,13 @@ import { serializable } from './utils';
 window.serializable = serializable;
 ```
 
-### JavaScript 端
+## 更新升级SDK
+
+### Android端
+
+可以通过修改 SDK 目录中的 NpmServiceSDK.kt 文件，更新升级 SDK。
+
+### JavaScript端
 
 JavaScript 中调用 npm 服务并通过 webpack 打包多个 JS 文件成一个 bundle.js。
 这个过程涉及设置一个适合的项目结构，安装必要的 npm 包，配置 webpack，并最终打包生成 bundle.js。
@@ -237,7 +236,7 @@ JavaScript 中调用 npm 服务并通过 webpack 打包多个 JS 文件成一个
 <details>
 <summary>具体步骤</summary>
 
-### 1.初始化项目
+#### 1.初始化项目
 
 首先创建一个新的项目文件夹，并初始化一个 npm 项目：
 
@@ -264,7 +263,7 @@ npm init -y  # 自动生成 package.json 文件
 }
 ```
 
-### 2.安装依赖
+#### 2.安装依赖
 
 安装 webpack ：
 
@@ -274,7 +273,7 @@ npm install webpack webpack-cli --save-dev
 
 `webpack` 是核心工具，`webpack-cli` 允许你在命令行中运行 `webpack`
 
-### 3.创建项目结构
+#### 3.创建项目结构
 
 在项目目录下创建一个简单的文件结构：
 
@@ -290,7 +289,7 @@ npm install webpack webpack-cli --save-dev
 
 在 src 文件夹中，index.js 可以是入口文件，而 component.js 是一个额外的模块。
 
-### 4.编写 JavaScript 文件
+#### 4.编写 JavaScript 文件
 
 调用 npm 服务 [debeem-wallet](https://www.npmjs.com/package/debeem-wallet)，需要安装 debeem-wallet
 服务和对应的依赖
@@ -300,7 +299,7 @@ npm install debeem-wallet debeem-id debeem-cipher ethers idb
 npm install fake-indexeddb --save
 ```
 
-### 5.配置 webpack
+#### 5.配置 webpack
 
 在项目根目录下创建 webpack.config.js：
 
@@ -320,7 +319,7 @@ module.exports = {
 
 这个配置告诉 webpack 从 src/index.js 开始打包，将所有依赖打包到 output/bundle.js。
 
-### 6.生成 bundle.js 文件
+#### 6.生成 bundle.js 文件
 
 使用 webpack 命令生成 bundle.js
 
@@ -329,6 +328,26 @@ npx webpack
 ```
 
 </details>
+
+## 如何打包发布
+
+### 打包脚本介绍
+
+1、bundle.js 生成脚本
+
+通过 webpack 打包 js，同时把生成的 bundle.js 复制到 SDK 指定目录中。
+
+```shell
+./build_bundle_js.sh 
+```
+
+2、SDK 上传打包
+
+通过给项目打 tag，上传到 github 上，jitpack 自动识别 tag 自动打包。
+
+```shell
+./publish_library.sh -v 1.0.0-alpha.2
+```
 
 ## 常见问题
 
