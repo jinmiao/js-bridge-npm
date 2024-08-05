@@ -4,21 +4,21 @@
 
 ## 目录
 
-- [一、简介](#section-1)
-- [二、集成](#section-2)
-    - [Android端集成](#section-2-1)
-- [三、使用](#section-3)
-  - [1.调用全局方法或类的静态方法](#section-3-1)
-  - [2.调用类的具体属性和方法](#section-3-2)
-  - [3.自定义 js 脚本](#section-3-3)
-  - [4.导入的全局包名](#section-3-3)
-- [四、更新](#section-4)
-  - [Android端](#section-4-1)
-  - [JavaScript端](#section-4-2)
-  - [如何打包发布](#section-4-3)
-- [五、常见问题](#section-5)
-- [六、贡献指南](#section-6)
-- [七、许可证](#section-7)
+- [1.简介](#section-1)
+- [2.集成](#section-2)
+    - [2.1.Android端集成](#section-2-1)
+- [3.使用](#section-3)
+  - [3.1.调用全局方法或类的静态方法](#section-3-1)
+  - [3.2.调用类的具体属性和方法](#section-3-2)
+  - [3.3.自定义 js 脚本](#section-3-3)
+  - [3.4.导入的全局包名](#section-3-3)
+- [4.更新](#section-4)
+  - [4.1.Android端](#section-4-1)
+  - [4.2.JavaScript端](#section-4-2)
+  - [4.3.打包发布](#section-4-3)
+- [5.常见问题](#section-5)
+- [6.贡献指南](#section-6)
+- [7.许可证](#section-7)
 
 <h2 id="section-1">一、简介</h2>
 
