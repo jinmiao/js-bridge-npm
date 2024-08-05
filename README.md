@@ -51,7 +51,7 @@ dependencies {
 
 <h2 id="section-3">3.API使用</h2>
 
-<h3 id="section-3-1">1.调用全局方法或类的静态方法</h3>
+<h3 id="section-3-1">3.1.调用全局方法或类的静态方法</h3>
 
 需要指定包名，全局方法/类名的静态方法）
 
@@ -82,7 +82,7 @@ walletBusiness.callJsFunctionAsync(
 ```
 </details>
 
-<h3 id="section-3-2">1.调用类的具体属性和方法</h3>
+<h3 id="section-3-2">3.2.调用类的具体属性和方法</h3>
 
 构造类的对象，需要指定具体包名，类名以及具体的属性名和方法名称
 
@@ -144,7 +144,7 @@ walletBusiness.createCallJsFunctionAsync(
 ```
 </details>
 
-<h3 id="section-3-3">3.自定义js脚本</h3>
+<h3 id="section-3-3">3.3.自定义js脚本</h3>
 
 直接 native 编写 js 业务脚本
  - label：自定义，回调识别用
@@ -193,7 +193,7 @@ walletBusiness.customScript(label, script) { result ->
 ```
 </details>
 
-<h3 id="section-3-4">4.导入的具体业务包</h3>
+<h3 id="section-3-4">3.4.导入的具体业务包</h3>
 
 js 中导入的对应包名，以及暴露的方法
  - DebeemWallet
@@ -226,11 +226,11 @@ window.serializable = serializable;
 
 <h2 id="section-4">4.更新升级SDK</h2>
 
-<h3 id="section-4-1">1.Android端</h3>
+<h3 id="section-4-1">4.1.Android端</h3>
 
 Android Native 接口更新，可以通过修改 SDK 目录中的 NpmServiceSDK.kt 文件，更新升级 SDK。
 
-<h3 id="section-4-2">2.JavaScript端</h3>
+<h3 id="section-4-2">4.2.JavaScript端</h3>
 
 js 具体业务更新，例如新增 npm 服务等。
 
@@ -333,7 +333,7 @@ npx webpack
 
 </details>
 
-<h3 id="section-4-3">3.打包发布</h3>
+<h3 id="section-4-3">4.3.打包发布</h3>
 
 #### 打包脚本介绍
 
